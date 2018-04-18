@@ -1,0 +1,6 @@
+﻿  stdafx.cpp
+  dllmain.cpp
+  DLLTest.cpp
+    正在创建库 D:\myprj\DLLTest\x64\Debug\DLLTest.lib 和对象 D:\myprj\DLLTest\x64\Debug\DLLTest.exp
+  DLLTest.vcxproj -> D:\myprj\DLLTest\x64\Debug\DLLTest.dll
+  DLLTest.vcxproj -> D:\myprj\DLLTest\x64\Debug\DLLTest.pdb (Full PDB)

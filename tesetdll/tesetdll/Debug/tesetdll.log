@@ -1,0 +1,7 @@
+﻿  stdafx.cpp
+  tesetdll.cpp
+d:\myprj\tesetdll\tesetdll\tesetdll.cpp(10): warning C4129: “m”: 不可识别的字符转义序列
+d:\myprj\tesetdll\tesetdll\tesetdll.cpp(10): warning C4129: “D”: 不可识别的字符转义序列
+d:\myprj\tesetdll\tesetdll\tesetdll.cpp(10): warning C4129: “R”: 不可识别的字符转义序列
+  tesetdll.vcxproj -> D:\myprj\tesetdll\Debug\tesetdll.exe
+  tesetdll.vcxproj -> D:\myprj\tesetdll\Debug\tesetdll.pdb (Full PDB)

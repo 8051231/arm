@@ -1,0 +1,6 @@
+﻿  stdafx.cpp
+  dllmain.cpp
+  DLLTest.cpp
+d:\myprj\dlltest\dlltest\dlltest.h(5): error C2144: 语法错误:“int”的前面应有“;”
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(356,5): error MSB6006: “CL.exe”已退出，代码为 2。
+d:\myprj\dlltest\dlltest\dlltest.h(6): error C2143: 语法错误: 缺少“;”(在“}”的前面)

@@ -1,0 +1,6 @@
+LIBRARY "DLLTest"
+EXPORTS
+    SIMC_Init @1
+    SIMC_Run @2
+	SIMC_AddTimeEvent @3
+    test1 @4
