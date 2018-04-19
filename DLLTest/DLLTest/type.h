@@ -1,4 +1,4 @@
-#ifndef __TYPE_H_
+﻿#ifndef __TYPE_H_
 #define __TYPE_H_
 
 #ifdef __cplusplus
@@ -8,21 +8,15 @@ extern "C" {
 #define SIMC_CALLBACK_OK 1
 #define SIMC_OK 0
 #define SIMC_ERROR -1
-#define SIMC_TIMEOUT -2
-#define SIMC_LEN_LACK -3
-#define SIMC_CONNECT_ERROR -4
-#define SIMC_CHANGE -5
-#define SIMC_TIEM_LACK -6
-#define SIMC_COMNECT_REJECT -7
-#define SIMC_FLIE_NONENTITY -8
 
-#define SIMC_NETLINK_NONE -7
-#define SIMC_NETLINK_DOWN -8
-#define SIMC_NETLINK_UNPLUGGED -9
 
+//队列操作相关错误码
 #define SIMC_QUEUE_NULL -10
 #define SIMC_QUEUE_NODE_NULL -11
+//cadi相关错误码
 #define SIMC_CALLBACK_ERROR -12
+#define SIMC_CADI_NULL -13
+#define	SIMC_CADI_CALLBACK_NULL -14
 
 #define true 1
 #define false 0

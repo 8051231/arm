@@ -23,7 +23,7 @@ int ntCycle = 1;
 int printarg(int n)
 {
 	printf("test all callback ---nArgument = %d\n", n);
-	Sleep(10000);
+	//Sleep(2000);
 	return 0;
 
 }
@@ -61,7 +61,7 @@ int main()
 
 	printf("fnDllSIMC_Init return = %d\n", n);
 
-
+/*
 
 	typedef int(*TYPE_fnDllAddTimeEvent) (void * pfCallback, UINT32 nArgument, UINT32 nDeltCycle);
 
@@ -70,22 +70,42 @@ int main()
 	{
 		printf("GetProcAddress fnDllSIMC_AddTimeEvent Success\n");
 	}
+*/
 
 
 	//int nArg = 100;
 	//int ntCycle = 1000;
-	n = fnDllSIMC_AddTimeEvent((void*)printarg, nArg, 5);
+//	n = fnDllSIMC_AddTimeEvent((void*)printarg, nArg, 5);
 
-	printf("fnDllSIMC_AddTimeEvent return = %d\n", n);
+//	printf("fnDllSIMC_AddTimeEvent return = %d\n", n);
 
-	n = fnDllSIMC_AddTimeEvent((void*)printarg, nArg, 3);
+//	n = fnDllSIMC_AddTimeEvent((void*)printarg, nArg, 3);
 //	n = fnDllSIMC_AddTimeEvent((void*)printarg, nArg, 1);
 	//n = fnDllSIMC_AddTimeEvent((void*)printarg, 200, 3000);
 
 	printf("fnDllSIMC_AddTimeEvent return = %d\n", n);
 
 
+#if 1
+//测试单步执行
+	typedef int(*TYPE_fnDllSIMC_Step) (int);
 
+
+
+	TYPE_fnDllSIMC_Step fnDllSIMC_Step = (TYPE_fnDllSIMC_Step)GetProcAddress(hModule, "SIMC_Step");
+	if (fnDllSIMC_Step != NULL)
+	{
+		printf("GetProcAddress fnDllSIMC_Step Success\n");
+	}
+	//	for (int i = 0; i < 6; i++)
+	{
+		//n = fnDllSIMC_Step(10);
+	}
+
+#endif
+	//Sleep(10000);
+#if 1
+	//测试执行程序
 	typedef int(*TYPE_fnDllSIMC_Run) ();
 
 
@@ -95,16 +115,31 @@ int main()
 	{
 		printf("GetProcAddress SIMC_Run Success\n");
 	}
-	for (int i = 0; i < 6; i++)
+		//for (int i = 0; i < 2; i++)
 	{
 		n = fnDllSIMC_Run();
 	}
-		
-
-
-
-
 	printf("fnDllSIMC_Run return = %d\n", n);
+#endif
+	Sleep(5000);
+#if 1
+	//测试停止程序
+	typedef int(*TYPE_fnDllSIMC_Stop) ();
+
+
+
+	TYPE_fnDllSIMC_Stop fnDllSIMC_Stop = (TYPE_fnDllSIMC_Stop)GetProcAddress(hModule, "SIMC_Stop");
+	if (fnDllSIMC_Stop != NULL)
+	{
+		printf("GetProcAddress SIMC_Stop Success\n");
+	}
+
+    n = fnDllSIMC_Stop();
+
+	printf("fnDllSIMC_Stop return = %d\n", n);
+#endif
+	Sleep(5000);
+	n = fnDllSIMC_Step(10);
 
 
 	//printf("c = %d\n", c);

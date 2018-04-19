@@ -12,7 +12,7 @@
 #include <stdlib.h>
 
 #include "type.h"
-
+#include <process.h>
 st_time_event g_time_event;
 typedef int(*callback_type)(int);
 
@@ -32,13 +32,13 @@ int SIMC_Init()
 	printf("entry SIMC_Init\n");
 
 	//管道初始化，等待客户端连接
-	simc_fifo_init();
+	//simc_fifo_init();
 
 	//插件初始化
 	simc_plugin_init();
 
 	//时间事件队列初始化
-	simc_time_event_queue_init(&g_time_event);
+	//simc_time_event_queue_init(&g_time_event);
 
 
 	printf("leave SIMC_Init\n");
@@ -46,7 +46,7 @@ int SIMC_Init()
 }
 
 //启动线程执行程序
-int SIMC_Run(int nRunMode)
+int SIMC_Run()
 {
 	printf("entry SIMC_Run\n");
 	simc_plugin_run();
@@ -54,7 +54,29 @@ int SIMC_Run(int nRunMode)
 	return 0;
 }
 
+// 单步执行
+int SIMC_Step(int nCount)
+{
+	printf("entry SIMC_Step\n");
+	simc_plugin_stepn(nCount);
+	//runcontrol_stepn(100, cadi, cadi_callback, true);
+	printf("exit SIMC_Step\n");
+	return 0;
+}
+//停止执行
+int SIMC_Stop()
+{
+	printf("entry SIMC_Stop\n");
+	simc_plugin_stop();
+	//runcontrol_stepn(100, cadi, cadi_callback, true);
+	printf("exit SIMC_Stop\n");
+}
 
+//获得指令寄存器的值
+int SIMC_ReadReg(UINT32 nRegID, UCHAR* pbValue)
+{
+	return 0;
+}
 
 int SIMC_AddTimeEvent(void * pfCallback, UINT32 nArgument, UINT32 nDeltCycle)
 {

@@ -17,7 +17,7 @@ extern "C"
 	DLL_EXPORT int SIMC_Init();
 
 	//启动线程执行程序
-	DLL_EXPORT int SIMC_Run(int nRunMode);
+	DLL_EXPORT int SIMC_Run();
 
 
 	//向虚拟内核事件队列中增加一个时间事件
@@ -25,16 +25,17 @@ extern "C"
 
 
 	DLL_EXPORT int test1(int a, int b);
-/*	
+
 	//单步执行
 	DLL_EXPORT int SIMC_Step(int nCount);
 
+
 	//暂停执行
-	DLL_EXPORT int SIMC_Stop(void);
+	DLL_EXPORT int SIMC_Stop();
 
 	//获得指令寄存器的值
 	DLL_EXPORT int SIMC_ReadReg(UINT32 nRegID, UCHAR* pbValue);
-
+	/*
 	//设置指定寄存器的值
 	DLL_EXPORT int SIMC_WriteReg(UINT32 nRegID, UCHAR* pbValue);
 

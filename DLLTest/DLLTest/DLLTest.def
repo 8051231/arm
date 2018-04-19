@@ -2,5 +2,8 @@ LIBRARY "DLLTest"
 EXPORTS
     SIMC_Init @1
     SIMC_Run @2
-	SIMC_AddTimeEvent @3
-    test1 @4
+    SIMC_Step @3
+    SIMC_Stop @4
+	SIMC_ReadReg @5
+	SIMC_AddTimeEvent @6
+    test1 @7

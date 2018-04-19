@@ -11,6 +11,7 @@
 #include "connect.h"
 #include "callback.h"
 #include "runcontrol.h"
+#include "type.h"
 
 //初始化标识：0停止，1运行 
 int nSimState = 0;
@@ -20,9 +21,44 @@ MyCADICallback *cadi_callback = NULL;
 //模拟器编号
 unsigned int targetnum = 2;
 
+
+int simc_plugin_stop()
+{
+	eslapi::CADIReturn_t status = cadi->CADIExecStop();
+
+	if (status != eslapi::CADI_STATUS_OK)
+	{
+		printf("CADIExecContinue returned an error\n");
+		exit(1);
+	}
+	return 0;
+}
+
+int simc_plugin_stepn(int nCount)
+{
+    //runcontrol_stepn(nCount, cadi, cadi_callback, true);
+	eslapi::CADIReturn_t status = cadi->CADIExecSingleStep(nCount, 0, 0);
+
+	if (status != eslapi::CADI_STATUS_OK)
+	{
+		printf("CADIExecSingleStep returned an error\n");
+		exit(1);
+	}
+
+	return SIMC_OK;
+}
+
+
 int simc_plugin_run()
 {
-	runcontrol_step(cadi, cadi_callback, true);
+	eslapi::CADIReturn_t status = cadi->CADIExecContinue();
+
+	if (status != eslapi::CADI_STATUS_OK)
+	{
+		printf("CADIExecContinue returned an error\n");
+		exit(1);
+	}
+
 	return 0;
 }
 
@@ -40,42 +76,27 @@ int simc_plugin_init()
 	set_plugin(strPlugin);
 
 	// connect to a already running model, return a cadi pointer to the requested target
-	if (NULL != cadi)
-	{
-		printf("The cadi has been initialized\n");
-		return -1;
-	}
-
 	cadi = connect_library(strSim, targetnum, true);
 	if (NULL == cadi)
 	{
 		printf("The cadi initialize failed\n");
-		while (1)
-		{
-			//printf("asdf\n");
-		}
-		return -2;
+		return SIMC_CADI_NULL;
 	}
 	printf("The cadi initialize success\n");
 
 	// load application
-    cadi->CADIExecLoadApplication(strApp.c_str(), true, false, NULL);
+   // cadi->CADIExecLoadApplication(strApp.c_str(), true, false, NULL);
 
 	// add a CADI callback to allow correct run controland handling of semihosting, return a pointer to the callback object
-	if (NULL != cadi_callback)
-	{
-		printf("The cadi_callback has been initialized\n");
-		return -3;
-	}
 	cadi_callback = callbacks(cadi, true);
 	if (NULL == cadi_callback)
 	{
 		printf("The cadi_callback initialize failed\n");
-		return -4;
+		return SIMC_CADI_CALLBACK_NULL;
 	}
 	printf("The cadi_callback initialize success\n");
 
-
+	return SIMC_OK;
 }
 
 int simc_plugin_get_mode()

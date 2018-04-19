@@ -52,7 +52,18 @@ CRITICAL_SECTION cs;
 LPTSTR pStrPipeNameGet = TEXT("\\\\.\\pipe\\Name_pipe_demon_get");
 
 
+#define CONNECTING_STATE 0 
+#define READING_STATE 1 
+#define WRITING_STATE 2 
+#define INSTANCES 4 
+#define PIPE_TIMEOUT 5000
+#define BUFSIZE 4096
+
+
+
 unsigned _stdcall ThreadProc(void* param);
+
+#define BUFSIZE 512
 
 
 int simc_fifo_queue_proc(uint32_t pc)
@@ -178,28 +189,29 @@ unsigned _stdcall beginGetThread(PVOID p)
 			DWORD dwLen = 0;
 			char buf[4] = {0};
 			dwLen = 0;
-		//	ReadFile(hPipe, buf, 4, &dwLen, NULL);
+			ReadFile(hPipe, buf, 4, &dwLen, NULL);
 			pc = (buf[3] << 24) | (buf[2] << 16) | (buf[1] << 8) | (buf[0]);
 			printf("received data from the plug-in %d bytes,contents are:0x%08x\n", dwLen,pc);
 		//	printf("------------PC: 0x%08x\n", pc);
 			//业务逻辑处理
 			
-		//	ret = simc_fifo_proc(pc);
+			ret = simc_fifo_proc(pc);
 			printf("simc_fifo_proc ret =  %d\n", ret);
 
 
-		/*	if (ret != 0)
-			{
-				printf("simc_fifo_proc failed\n");
-			}
-			else//管道回复6666
-			{
+//            if (ret != 0)
+//			{
+//				printf("simc_fifo_proc failed\n");
+//			}
+//			else//管道回复6666
+		/*	{
 				uint32_t pc = 6666;
 				char pbuf[4] = { 0 };
 				DWORD dwLen = 0;
 				memcpy(&pbuf[0], &pc, 4);
 
 				char buf[4] = { 66 };
+				printf("begin WriteFile ......\n");
 				//向服务端发送数据  
 				if (WriteFile(hPipe, pbuf, 4, &dwLen, NULL))
 				{
@@ -210,8 +222,8 @@ unsigned _stdcall beginGetThread(PVOID p)
 					printf("dll Data write failed\n");
 				}
 			}
+			*/
 
-*/
 			/*
 			int bufSize;
 			for (bufSize = 0; bufSize < (int)dwLen; bufSize++) {
@@ -241,6 +253,7 @@ int simc_fifo_uninit()
 
 int simc_fifo_init()
 {
+
 	printf("simc_fifo_init\n");
 
 	hPipe = CreateNamedPipe(pStrPipeNameGet, PIPE_ACCESS_DUPLEX,
@@ -262,28 +275,29 @@ int simc_fifo_init()
 	if (handleGet == NULL)
 	{
 		printf("create thread failed\n");
-	//	system("pause");
-	//	DeleteCriticalSection(&cs);
-	//	return 0;
+		//	system("pause");
+		//	DeleteCriticalSection(&cs);
+		//	return 0;
 	}
 
-/*	HANDLE handleSend = (HANDLE)_beginthreadex(NULL, 0, beginSendThread, NULL, NULL, NULL);
+	/*	HANDLE handleSend = (HANDLE)_beginthreadex(NULL, 0, beginSendThread, NULL, NULL, NULL);
 	if (handleSend == NULL)
 	{
-		printf("create thread failed\n");
-		system("pause");
-		DeleteCriticalSection(cs);
-		return 0;
+	printf("create thread failed\n");
+	system("pause");
+	DeleteCriticalSection(cs);
+	return 0;
 	}
-*/
-//	WaitForSingleObject(handleGet, INFINITE);
-//	WaitForSingleObject(handleSend, INFINITE);
+	*/
+	//	WaitForSingleObject(handleGet, INFINITE);
+	//	WaitForSingleObject(handleSend, INFINITE);
 	DWORD   dwExitCode;
 	GetExitCodeThread(handleGet, &dwExitCode);
 	printf("beginGetThread 1 exited with code %u\n", dwExitCode);
 	CloseHandle(handleGet);
-//	CloseHandle(handleSend);
-//	DeleteCriticalSection(&cs);
+	//	CloseHandle(handleSend);
+	//	DeleteCriticalSection(&cs);
+	return 0;
 
 }
 
