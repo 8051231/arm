@@ -5,5 +5,6 @@ EXPORTS
     SIMC_Step @3
     SIMC_Stop @4
 	SIMC_ReadReg @5
-	SIMC_AddTimeEvent @6
-    test1 @7
+	SIMC_GetStatus @6
+	SIMC_AddTimeEvent @7
+    test1 @8

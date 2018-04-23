@@ -6,21 +6,15 @@
   pipe.cpp
 pipe.cpp(66): warning C4005: 'BUFSIZE': macro redefinition
   d:\myprj\dlltest\dlltest\pipe.h(5): note: see previous definition of 'BUFSIZE'
-pipe.cpp(268): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'HANDLE'
-pipe.cpp(268): warning C4313: 'printf': '%d' in format string conflicts with argument 1 of type 'HANDLE'
+pipe.cpp(198): warning C4474: 'printf' : too many arguments passed for format string
+  pipe.cpp(198): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
+pipe.cpp(302): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'HANDLE'
+pipe.cpp(302): warning C4313: 'printf': '%d' in format string conflicts with argument 1 of type 'HANDLE'
   plugin.cpp
-plugin.cpp(68): warning C4129: 'A': unrecognized character escape sequence
-plugin.cpp(68): warning C4129: 'F': unrecognized character escape sequence
-plugin.cpp(68): warning C4129: 'e': unrecognized character escape sequence
-plugin.cpp(68): warning C4129: 'M': unrecognized character escape sequence
-plugin.cpp(68): warning C4129: 'S': unrecognized character escape sequence
-plugin.cpp(68): warning C4129: 'R': unrecognized character escape sequence
-plugin.cpp(73): warning C4129: 'A': unrecognized character escape sequence
-plugin.cpp(73): warning C4129: 'F': unrecognized character escape sequence
-plugin.cpp(73): warning C4129: 'i': unrecognized character escape sequence
   timeque.cpp
 DLLTest.obj : warning LNK4197: export 'test1' specified multiple times; using first specification
 DLLTest.obj : warning LNK4197: export 'SIMC_AddTimeEvent' specified multiple times; using first specification
+DLLTest.obj : warning LNK4197: export 'SIMC_GetStatus' specified multiple times; using first specification
 DLLTest.obj : warning LNK4197: export 'SIMC_ReadReg' specified multiple times; using first specification
 DLLTest.obj : warning LNK4197: export 'SIMC_Stop' specified multiple times; using first specification
 DLLTest.obj : warning LNK4197: export 'SIMC_Step' specified multiple times; using first specification
@@ -28,8 +22,7 @@ DLLTest.obj : warning LNK4197: export 'SIMC_Run' specified multiple times; using
 DLLTest.obj : warning LNK4197: export 'SIMC_Init' specified multiple times; using first specification
      Creating library D:\myprj\DLLTest\x64\Release\DLLTest.lib and object D:\myprj\DLLTest\x64\Release\DLLTest.exp
   Generating code
-d:\myprj\dlltest\dlltest\dlltest.cpp(73): warning C4715: 'SIMC_Stop': not all control paths return a value
-  All 476 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 493 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   DLLTest.vcxproj -> D:\myprj\DLLTest\x64\Release\DLLTest.dll
   DLLTest.vcxproj -> D:\myprj\DLLTest\x64\Release\DLLTest.pdb (Full PDB)

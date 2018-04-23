@@ -35,7 +35,7 @@
 #define BUFSIZE 4096  
 extern st_time_event g_time_event;
 int nQueLen = 0; //队列长度
-HANDLE hPipe = NULL;
+HANDLE hServerPipe = NULL;
 
 BOOL fConnected;
 DWORD dwThreadId;
@@ -172,32 +172,66 @@ unsigned _stdcall  beginSendThread(PVOID p) {
 }
 */
 
-unsigned _stdcall beginGetThread(PVOID p)
+unsigned _stdcall InstanceThread(PVOID p)
 {
-	printf("Pipe server waiting for connection......\n");
-    if (ConnectNamedPipe(hPipe, NULL) != NULL)//等待连接。  
+	printf("ServerPipe waiting for connection......\n");
+    if (ConnectNamedPipe(hServerPipe, NULL) != NULL)//等待连接。  
 	{
-		printf("The connection is successful ,Pipe starts to receive the data\n");
+		BOOL fSuccess = FALSE;
+		printf("The connection is successful ,ServerPipe starts to receive the data\n");
 		while (true)
 		{
-			printf("dlltest pipe true\n");
+			printf("**************ServerPipe true**************\n");
 			//WaitForSingleObject(mutex, INFINITE);
 			//EnterCriticalSection(&cs);
 			//接收客户端发送的数据
-			uint32_t pc = 0;
-			int ret = 0;
-			DWORD dwLen = 0;
-			char buf[4] = {0};
-			dwLen = 0;
-			ReadFile(hPipe, buf, 4, &dwLen, NULL);
-			pc = (buf[3] << 24) | (buf[2] << 16) | (buf[1] << 8) | (buf[0]);
-			printf("received data from the plug-in %d bytes,contents are:0x%08x\n", dwLen,pc);
-		//	printf("------------PC: 0x%08x\n", pc);
-			//业务逻辑处理
-			
-			ret = simc_fifo_proc(pc);
-			printf("simc_fifo_proc ret =  %d\n", ret);
+			int ret = SIMC_OK;
+			uint32_t addrpc = 0;
+			DWORD nRcvLen = 0;
+			unsigned char sRcvbuf[SIMC_MSG_LEN] = {0};
 
+			fSuccess = ReadFile(hServerPipe, sRcvbuf, SIMC_MSG_LEN, &nRcvLen, NULL);
+			if (!fSuccess || nRcvLen == 0)
+			{
+				if (GetLastError() == ERROR_BROKEN_PIPE)
+				{
+					_tprintf(TEXT("InstanceThread: client disconnected.\n"), GetLastError());
+				}
+				else
+				{
+					_tprintf(TEXT("InstanceThread ReadFile failed, GLE=%d.\n"), GetLastError());
+				}
+				break;
+			}
+			addrpc = (sRcvbuf[3] << 24) | (sRcvbuf[2] << 16) | (sRcvbuf[1] << 8) | (sRcvbuf[0]);
+			printf("ServerPipe received data from the client %d bytes,contents are:0x%08x\n", nRcvLen, addrpc);
+
+			//业务逻辑处理
+			ret = simc_fifo_proc(addrpc);
+			printf("ServerPipe simc_fifo_proc ret =  %d\n", ret);
+			//FlushFileBuffers(hServerPipe);
+
+			if ((SIMC_CALLBACK_OK == ret) || (SIMC_OK == ret))
+			{
+				//管道回复
+				//unsigned char sSendbuf[SIMC_MSG_LEN] = { 1,1,1,1 };
+				DWORD nAckLen = 0;
+				printf("ServerPipe  WriteFile to client begin......\n");
+				//向客户端发送数据  
+				fSuccess = WriteFile(hServerPipe, sRcvbuf, 4, &nAckLen, NULL);
+				if (!fSuccess || nAckLen != SIMC_MSG_LEN)
+				{
+					_tprintf(TEXT("InstanceThread WriteFile failed, GLE=%d.\n"), GetLastError());
+					break;
+				}
+				else
+				{
+					printf("ServerPipe WriteFile to client  success, nAckLen = %d, contents are:0x%08x\n",nAckLen, addrpc);
+				}
+				printf("ServerPipe WriteFile to client end......\n");
+			}
+			
+			//huikui TracePC .......
 
 //            if (ret != 0)
 //			{
@@ -232,7 +266,7 @@ unsigned _stdcall beginGetThread(PVOID p)
 			}
 			*/
 			//LeaveCriticalSection(&cs);
-			Sleep(500);
+			//Sleep(500);
 			//ReleaseSemaphore(mutex, 1, NULL);
 			//putchar('\n');
 		}
@@ -242,8 +276,8 @@ unsigned _stdcall beginGetThread(PVOID p)
 		printf("连接失败\n");
 	}
 
-	DisconnectNamedPipe(hPipe);
-	CloseHandle(hPipe);//关闭管道
+	DisconnectNamedPipe(hServerPipe);
+	CloseHandle(hServerPipe);//关闭管道
 	return 0;
 }
 int simc_fifo_uninit()
@@ -254,24 +288,24 @@ int simc_fifo_uninit()
 int simc_fifo_init()
 {
 
-	printf("simc_fifo_init\n");
+	printf("entry simc_fifo_init\n");
 
-	hPipe = CreateNamedPipe(pStrPipeNameGet, PIPE_ACCESS_DUPLEX,
+	hServerPipe = CreateNamedPipe(pStrPipeNameGet, PIPE_ACCESS_DUPLEX,
 		PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_WAIT,
 		PIPE_UNLIMITED_INSTANCES, 0, 0, NMPWAIT_NOWAIT, 0);
-	if (INVALID_HANDLE_VALUE == hPipe)
+	if (INVALID_HANDLE_VALUE == hServerPipe)
 	{
 		printf("CreateNamedPipe failed with error %x \n", GetLastError());
 		return 0;
 	}
 
-	printf("CreateNamedPipe success hPipe = %d\n", hPipe);
+	printf("CreateNamedPipe success hServerPipe = %d\n", hServerPipe);
 
 
 	//InitializeCriticalSection(&cs);
 	//mutex = CreateSemaphore(NULL, 1, 1, TEXT("mutex"));
 	HANDLE handleGet = NULL;
-	handleGet = (HANDLE)_beginthreadex(NULL, 0, beginGetThread, NULL, NULL, NULL);
+	handleGet = (HANDLE)_beginthreadex(NULL, 0, InstanceThread, NULL, NULL, NULL);
 	if (handleGet == NULL)
 	{
 		printf("create thread failed\n");
@@ -293,7 +327,7 @@ int simc_fifo_init()
 	//	WaitForSingleObject(handleSend, INFINITE);
 	DWORD   dwExitCode;
 	GetExitCodeThread(handleGet, &dwExitCode);
-	printf("beginGetThread 1 exited with code %u\n", dwExitCode);
+	printf("InstanceThread 1 exited with code %u\n", dwExitCode);
 	CloseHandle(handleGet);
 	//	CloseHandle(handleSend);
 	//	DeleteCriticalSection(&cs);

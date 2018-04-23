@@ -18,6 +18,9 @@ extern "C" {
 #define SIMC_CADI_NULL -13
 #define	SIMC_CADI_CALLBACK_NULL -14
 
+//
+#define	SIMC_MSG_LEN 4
+
 #define true 1
 #define false 0
 

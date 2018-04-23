@@ -13,6 +13,8 @@
 
 #include "type.h"
 #include <process.h>
+
+
 st_time_event g_time_event;
 typedef int(*callback_type)(int);
 
@@ -32,13 +34,13 @@ int SIMC_Init()
 	printf("entry SIMC_Init\n");
 
 	//管道初始化，等待客户端连接
-	//simc_fifo_init();
+	simc_fifo_init();
 
 	//插件初始化
 	simc_plugin_init();
 
 	//时间事件队列初始化
-	//simc_time_event_queue_init(&g_time_event);
+	simc_time_event_queue_init(&g_time_event);
 
 
 	printf("leave SIMC_Init\n");
@@ -49,35 +51,53 @@ int SIMC_Init()
 int SIMC_Run()
 {
 	printf("entry SIMC_Run\n");
-	simc_plugin_run();
+	int nRet = SIMC_OK;
+	nRet = simc_plugin_run();
 	printf("exit SIMC_Run\n");
-	return 0;
+	return nRet;
 }
 
 // 单步执行
 int SIMC_Step(int nCount)
 {
 	printf("entry SIMC_Step\n");
-	simc_plugin_stepn(nCount);
+	int nRet = SIMC_OK;
+	nRet = simc_plugin_stepn(nCount);
 	//runcontrol_stepn(100, cadi, cadi_callback, true);
 	printf("exit SIMC_Step\n");
-	return 0;
+	return nRet;
 }
 //停止执行
 int SIMC_Stop()
 {
 	printf("entry SIMC_Stop\n");
-	simc_plugin_stop();
+	int nRet = SIMC_OK;
+	nRet = simc_plugin_stop();
 	//runcontrol_stepn(100, cadi, cadi_callback, true);
 	printf("exit SIMC_Stop\n");
+	return nRet;
 }
 
 //获得指令寄存器的值
 int SIMC_ReadReg(UINT32 nRegID, UCHAR* pbValue)
 {
-	return 0;
+	printf("entry SIMC_ReadReg\n");
+	int nRet = SIMC_OK;
+	nRet = simc_plugin_get_status();
+	printf("exit SIMC_ReadReg\n");
+	return nRet;
 }
 
+
+//获取当前 CPU 状态
+UINT32 SIMC_GetStatus(UINT32* pnErrorCode)
+{
+	printf("entry SIMC_GetStatus\n");
+	int nRet = SIMC_OK;
+	nRet = simc_plugin_get_status();
+	printf("exit SIMC_GetStatus\n");
+	return nRet;
+}
 int SIMC_AddTimeEvent(void * pfCallback, UINT32 nArgument, UINT32 nDeltCycle)
 {
 	int ret = SIMC_OK;

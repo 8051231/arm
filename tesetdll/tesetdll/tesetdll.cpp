@@ -23,7 +23,7 @@ int ntCycle = 1;
 int printarg(int n)
 {
 	printf("test all callback ---nArgument = %d\n", n);
-	//Sleep(2000);
+	Sleep(5000);
 	return 0;
 
 }
@@ -33,7 +33,7 @@ int printarg(int n)
 int main()
 {
 
-	HMODULE hModule = LoadLibrary(_T("DLLTest.dll"));
+	HMODULE hModule = LoadLibrary(_T("D:\\myprj\\DLLTest\\x64\\Release\\DLLTest.dll"));
 	if (hModule == NULL || hModule == INVALID_HANDLE_VALUE) {
 		printf("error\n");
 		return -1;
@@ -61,7 +61,7 @@ int main()
 
 	printf("fnDllSIMC_Init return = %d\n", n);
 
-/*
+
 
 	typedef int(*TYPE_fnDllAddTimeEvent) (void * pfCallback, UINT32 nArgument, UINT32 nDeltCycle);
 
@@ -70,12 +70,12 @@ int main()
 	{
 		printf("GetProcAddress fnDllSIMC_AddTimeEvent Success\n");
 	}
-*/
 
 
-	//int nArg = 100;
-	//int ntCycle = 1000;
-//	n = fnDllSIMC_AddTimeEvent((void*)printarg, nArg, 5);
+
+	int nArg = 100;
+	int ntCycle = 1000;
+	n = fnDllSIMC_AddTimeEvent((void*)printarg, nArg, 1);
 
 //	printf("fnDllSIMC_AddTimeEvent return = %d\n", n);
 
@@ -99,12 +99,12 @@ int main()
 	}
 	//	for (int i = 0; i < 6; i++)
 	{
-		//n = fnDllSIMC_Step(10);
+		n = fnDllSIMC_Step(30);
 	}
 
 #endif
 	//Sleep(10000);
-#if 1
+#if 0
 	//测试执行程序
 	typedef int(*TYPE_fnDllSIMC_Run) ();
 
@@ -120,9 +120,31 @@ int main()
 		n = fnDllSIMC_Run();
 	}
 	printf("fnDllSIMC_Run return = %d\n", n);
+
+
+
 #endif
+	//Sleep(50000);
+
+#if 0
+	//测试读寄存器
+	typedef int(*TYPE_fnDllSIMC_ReadReg) ();
+
+
+
+	TYPE_fnDllSIMC_ReadReg fnDllSIMC_ReadReg = (TYPE_fnDllSIMC_ReadReg)GetProcAddress(hModule, "SIMC_ReadReg");
+	if (fnDllSIMC_ReadReg != NULL)
+	{
+		printf("GetProcAddress ReadReg Success\n");
+	}
+	//for (int i = 0; i < 2; i++)
+	{
+		n = fnDllSIMC_ReadReg();
+}
+	printf("fnDllSIMC_ReadReg return = %d\n", n);
 	Sleep(5000);
-#if 1
+#endif
+#if 0
 	//测试停止程序
 	typedef int(*TYPE_fnDllSIMC_Stop) ();
 
@@ -138,8 +160,8 @@ int main()
 
 	printf("fnDllSIMC_Stop return = %d\n", n);
 #endif
-	Sleep(5000);
-	n = fnDllSIMC_Step(10);
+	//Sleep(5000);
+	//n = fnDllSIMC_Step(10);
 
 
 	//printf("c = %d\n", c);
@@ -185,6 +207,8 @@ int main()
 		Sleep(1000);
 	}
 	*/
+	while (1)
+		Sleep(100000);
 	_tsystem(_T("pause"));
 	return 0;
 }

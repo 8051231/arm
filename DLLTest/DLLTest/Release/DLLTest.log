@@ -1,0 +1,13 @@
+﻿  stdafx.cpp
+  dllmain.cpp
+  DLLTest.cpp
+DLLTest.cpp(17): fatal error C1083: Cannot open include file: 'eslapi/CADI.h': No such file or directory
+  linklist.cpp
+  linkqueue.cpp
+  pipe.cpp
+pipe.cpp(66): warning C4005: 'BUFSIZE': macro redefinition
+  d:\myprj\dlltest\dlltest\pipe.h(5): note: see previous definition of 'BUFSIZE'
+pipe.cpp(268): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'HANDLE'
+  plugin.cpp
+plugin.cpp(6): fatal error C1083: Cannot open include file: 'eslapi/CADI.h': No such file or directory
+  timeque.cpp

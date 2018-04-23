@@ -129,16 +129,9 @@ int simc_time_queue_up_node(LinkQueue* queue, int nPos)
 
 	if (0 == rx_data->nDeltCycle)
 	{
-		//处理回调 返回值为0定义为回调处理成功,非0为失败。
-		nRet = ((callback_type)(rx_data_mod->cbaddr))(rx_data_mod->nArgument);
-		if (nRet == 0)
-		{
-			printf("timeevent pfCallback success nRet = %d\n", nRet);
-		}
-		else
-		{
-			//return SIMC_CALLBACK_ERROR;
-		}
+		//处理回调，调用即认为成功
+
+		((callback_type)(rx_data_mod->cbaddr))(rx_data_mod->nArgument);
 
 		//删除本节点
 		LinkQueue_Retrieve_Pos(queue, nPos);

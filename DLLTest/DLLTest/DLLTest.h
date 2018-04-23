@@ -35,6 +35,10 @@ extern "C"
 
 	//获得指令寄存器的值
 	DLL_EXPORT int SIMC_ReadReg(UINT32 nRegID, UCHAR* pbValue);
+
+	//获取当前 CPU 状态
+	DLL_EXPORT UINT32 SIMC_GetStatus(UINT32* pnErrorCode);
+
 	/*
 	//设置指定寄存器的值
 	DLL_EXPORT int SIMC_WriteReg(UINT32 nRegID, UCHAR* pbValue);
@@ -48,8 +52,7 @@ extern "C"
 	//获取以运行的周期数
 	DLL_EXPORT void SIMC_GetExecCycle(UINT64* pnCycleCount);
 
-	//获取当前 CPU 状态
-	DLL_EXPORT UINT32 SIMC_GetStatus(UINT32* pnErrorCode);
+
 
 	//增加一个断点
 	DLL_EXPORT int SIMC_AddBreakPoint(UINT32 nAddr);
