@@ -6,10 +6,13 @@
   pipe.cpp
 pipe.cpp(66): warning C4005: 'BUFSIZE': macro redefinition
   d:\myprj\dlltest\dlltest\pipe.h(5): note: see previous definition of 'BUFSIZE'
-pipe.cpp(198): warning C4474: 'printf' : too many arguments passed for format string
-  pipe.cpp(198): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
-pipe.cpp(302): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'HANDLE'
-pipe.cpp(302): warning C4313: 'printf': '%d' in format string conflicts with argument 1 of type 'HANDLE'
+pipe.cpp(195): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+pipe.cpp(241): warning C4244: 'argument': conversion from 'DWORD' to 'unsigned short', possible loss of data
+pipe.cpp(279): warning C4244: 'argument': conversion from 'DWORD' to 'unsigned short', possible loss of data
+pipe.cpp(232): warning C4474: 'printf' : too many arguments passed for format string
+  pipe.cpp(232): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
+pipe.cpp(350): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'HANDLE'
+pipe.cpp(350): warning C4313: 'printf': '%d' in format string conflicts with argument 1 of type 'HANDLE'
   plugin.cpp
   timeque.cpp
 DLLTest.obj : warning LNK4197: export 'test1' specified multiple times; using first specification
@@ -22,7 +25,7 @@ DLLTest.obj : warning LNK4197: export 'SIMC_Run' specified multiple times; using
 DLLTest.obj : warning LNK4197: export 'SIMC_Init' specified multiple times; using first specification
      Creating library D:\myprj\DLLTest\x64\Release\DLLTest.lib and object D:\myprj\DLLTest\x64\Release\DLLTest.exp
   Generating code
-  All 493 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 499 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   DLLTest.vcxproj -> D:\myprj\DLLTest\x64\Release\DLLTest.dll
   DLLTest.vcxproj -> D:\myprj\DLLTest\x64\Release\DLLTest.pdb (Full PDB)

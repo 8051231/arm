@@ -171,6 +171,39 @@ unsigned _stdcall  beginSendThread(PVOID p) {
 	return 0;
 }
 */
+void bosagent_data_syslog(char *msg, void * data, unsigned short len)
+{
+	if (msg == NULL || data == NULL || len < 1)
+	{
+		return;
+	}
+	unsigned char * pbuf = (unsigned char*)data;
+
+	int i = 0;
+	int j = 0;
+
+	char tmp_buff[1024] = { 0 };
+
+	for (j = 0; j < len;)
+	{
+		memset(tmp_buff, 0, sizeof(tmp_buff));
+
+		for (i = 0; i < sizeof(tmp_buff) - 3 && j < len; j++)
+		{
+			sprintf(tmp_buff + i, "%02x ", pbuf[j]);
+			i = strlen(tmp_buff);
+		}
+
+		printf("%s%s\n", msg, tmp_buff);
+	}
+
+}
+
+void  PrintHex(char *msg, void * data, unsigned short len)
+{
+	bosagent_data_syslog(msg, data, len);
+}
+
 
 unsigned _stdcall InstanceThread(PVOID p)
 {
@@ -203,9 +236,18 @@ unsigned _stdcall InstanceThread(PVOID p)
 				}
 				break;
 			}
+
+			PrintHex("Server_rcv: ", sRcvbuf, nRcvLen);
+
 			addrpc = (sRcvbuf[3] << 24) | (sRcvbuf[2] << 16) | (sRcvbuf[1] << 8) | (sRcvbuf[0]);
 			printf("ServerPipe received data from the client %d bytes,contents are:0x%08x\n", nRcvLen, addrpc);
-
+			//全局计数器加1
+/*
+			int ret1 = 0;
+			char sSendbuf[SIMC_MSG_LEN] = { 0 };
+		    ret1 = snprintf(sSendbuf, sizeof(sSendbuf), "12345678");
+			printf("ServerPipe simc_fifo_proc ret =  %d, %s\n", ret1, sSendbuf);
+			*/
 			//业务逻辑处理
 			ret = simc_fifo_proc(addrpc);
 			printf("ServerPipe simc_fifo_proc ret =  %d\n", ret);
@@ -214,11 +256,14 @@ unsigned _stdcall InstanceThread(PVOID p)
 			if ((SIMC_CALLBACK_OK == ret) || (SIMC_OK == ret))
 			{
 				//管道回复
-				//unsigned char sSendbuf[SIMC_MSG_LEN] = { 1,1,1,1 };
+				unsigned char sSendbuf[SIMC_MSG_LEN] = {0 };
+				memcpy(&sSendbuf[0], &addrpc, 4);
 				DWORD nAckLen = 0;
 				printf("ServerPipe  WriteFile to client begin......\n");
+
+
 				//向客户端发送数据  
-				fSuccess = WriteFile(hServerPipe, sRcvbuf, 4, &nAckLen, NULL);
+				fSuccess = WriteFile(hServerPipe, sSendbuf, 4, &nAckLen, NULL);
 				if (!fSuccess || nAckLen != SIMC_MSG_LEN)
 				{
 					_tprintf(TEXT("InstanceThread WriteFile failed, GLE=%d.\n"), GetLastError());
@@ -229,6 +274,7 @@ unsigned _stdcall InstanceThread(PVOID p)
 					printf("ServerPipe WriteFile to client  success, nAckLen = %d, contents are:0x%08x\n",nAckLen, addrpc);
 				}
 				printf("ServerPipe WriteFile to client end......\n");
+				PrintHex("Server_send: ", sSendbuf, nAckLen);
 			}
 			
 			//huikui TracePC .......

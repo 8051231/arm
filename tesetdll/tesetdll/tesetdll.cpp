@@ -75,18 +75,18 @@ int main()
 
 	int nArg = 100;
 	int ntCycle = 1000;
-	n = fnDllSIMC_AddTimeEvent((void*)printarg, nArg, 1);
+	n = fnDllSIMC_AddTimeEvent((void*)printarg, nArg, 5);
 
 //	printf("fnDllSIMC_AddTimeEvent return = %d\n", n);
 
-//	n = fnDllSIMC_AddTimeEvent((void*)printarg, nArg, 3);
-//	n = fnDllSIMC_AddTimeEvent((void*)printarg, nArg, 1);
+	n = fnDllSIMC_AddTimeEvent((void*)printarg, nArg, 3);
+	n = fnDllSIMC_AddTimeEvent((void*)printarg, nArg, 1);
 	//n = fnDllSIMC_AddTimeEvent((void*)printarg, 200, 3000);
 
 	printf("fnDllSIMC_AddTimeEvent return = %d\n", n);
 
 
-#if 1
+#if 0
 //测试单步执行
 	typedef int(*TYPE_fnDllSIMC_Step) (int);
 
@@ -104,7 +104,7 @@ int main()
 
 #endif
 	//Sleep(10000);
-#if 0
+#if 1
 	//测试执行程序
 	typedef int(*TYPE_fnDllSIMC_Run) ();
 

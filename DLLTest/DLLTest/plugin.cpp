@@ -272,7 +272,7 @@ int simc_plugin_run()
 int simc_plugin_init()
 {
     //插件路径
-	std::string strPlugin = "E:\\ARM\\FastModelsPortfolio_11.3\\examples\\MTI\\SimpleTrace\\x64\\Release_2013\\SimpleTrace.dll";
+	std::string strPlugin = "D:\\ARM\\FastModelsPortfolio_11.3\\examples\\MTI\\SimpleTrace\\x64\\Release_2013\\SimpleTrace.dll";
 	//模拟器路径
 	std::string strSim = "D:\\ARM\\FastModelsPortfolio_11.3\\examples\\LISA\\FVP_VE\\Build_Cortex-A15x1\\Win64-Release-VC2015\\cadi_system_Win64-Release-VC2015.dll";
 	//std::string strSim = "cadi_system_Win64-Release-VC2015.dll";
@@ -280,7 +280,7 @@ int simc_plugin_init()
 	std::string strApp = "D:\\ARM\\FastModelsPortfolio_11.3\\images\\brot_ve_A.axf";
 
 	// Define the MTI plugin to use by setting environment variable FM_TRACE_PLUGINS
-	//set_plugin(strPlugin);
+	set_plugin(strPlugin);
 	
 	printf("set_plugin ....\n");
 	// connect to a already running model, return a cadi pointer to the requested target
