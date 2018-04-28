@@ -33,7 +33,8 @@
 #include "type.h"
 
 #define BUFSIZE 4096  
-extern st_time_event g_time_event;
+extern st_event g_time_event;
+extern st_event g_addr_event;
 int nQueLen = 0; //队列长度
 HANDLE hServerPipe = NULL;
 
@@ -65,6 +66,31 @@ unsigned _stdcall ThreadProc(void* param);
 
 #define BUFSIZE 512
 
+int simc_fifo_queue_proc_addr(uint32_t pc)
+{
+	int nRet = 0;
+	int nTmp = 0;
+	for (nTmp = 0; nTmp < nQueLen; nTmp++)
+	{
+		nRet = simc_addr_queue_up_node(g_addr_event.queue, nTmp, pc);
+		if (SIMC_CALLBACK_OK == nRet)
+		{
+			nTmp = nTmp - 1;
+			nQueLen = simc_queue_len(g_time_event.queue);
+			printf("simc_queue_len, callback,delnode success .after del time event que,nTmp = %d, nQueLen = %d\n", nTmp, nQueLen);
+		}
+		else if (SIMC_OK == nRet)
+		{
+			printf("simc_time_queue_up_node success\n");
+		}
+		else
+		{
+			printf("simc_time_queue_up_node failed\n");
+			return nRet;
+		}
+	}
+	return 0;
+}
 
 int simc_fifo_queue_proc(uint32_t pc)
 {
@@ -76,8 +102,8 @@ int simc_fifo_queue_proc(uint32_t pc)
 		if (SIMC_CALLBACK_OK == nRet)
 		{
 			nTmp = nTmp - 1;
-			nQueLen = simc_time_queue_len(g_time_event.queue);
-			printf("simc_time_queue_up_node, callback,delnode success .after del time event que,nTmp = %d, nQueLen = %d\n", nTmp,nQueLen);
+			nQueLen = simc_queue_len(g_time_event.queue);
+			printf("simc_queue_len, callback,delnode success .after del time event que,nTmp = %d, nQueLen = %d\n", nTmp,nQueLen);
 		}
 		else if(SIMC_OK == nRet)
 		{
@@ -96,8 +122,8 @@ int simc_fifo_proc(uint32_t pc)
 {
 
 	int nRet = 0;
-
-	nQueLen = simc_time_queue_len(g_time_event.queue);
+	//处理时间队列事件
+	nQueLen = simc_queue_len(g_time_event.queue);
 
 	if(nQueLen > 0)
 	{
@@ -108,6 +134,20 @@ int simc_fifo_proc(uint32_t pc)
 	{
 		nRet = 0;
 	}
+	//处理地址队列事件
+	nQueLen = simc_queue_len(g_addr_event.queue);
+
+	if(nQueLen > 0)
+	{
+		//遍历队列，查询地址空间
+		nRet = simc_fifo_queue_proc_addr(pc);
+	}
+	else
+	{
+		nRet = 0;
+	}
+
+
 
 	return nRet;
 }

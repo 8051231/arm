@@ -7,4 +7,10 @@ EXPORTS
 	SIMC_ReadReg @5
 	SIMC_GetStatus @6
 	SIMC_AddTimeEvent @7
-    test1 @8
+	SIMC_GetExecCycle @8
+    SIMC_WriteReg @9
+    SIMC_ReadMem @10
+    SIMC_WriteMem @11
+    SIMC_AddBreakPoint @12
+    SIMC_RemoveBreakPoint @13
+    test1 @14

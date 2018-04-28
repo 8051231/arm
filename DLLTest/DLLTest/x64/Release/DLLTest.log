@@ -1,31 +1,72 @@
 ﻿  stdafx.cpp
   dllmain.cpp
   DLLTest.cpp
+DLLTest.cpp(210): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'UINT64'
+  DLLTest.cpp(210): note: consider using '%lld' in the format string
+  DLLTest.cpp(210): note: consider using '%Id' in the format string
+  DLLTest.cpp(210): note: consider using '%I64d' in the format string
+DLLTest.cpp(211): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'UINT64'
+  DLLTest.cpp(211): note: consider using '%lld' in the format string
+  DLLTest.cpp(211): note: consider using '%Id' in the format string
+  DLLTest.cpp(211): note: consider using '%I64d' in the format string
+DLLTest.cpp(223): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'UINT64'
+  DLLTest.cpp(223): note: consider using '%lld' in the format string
+  DLLTest.cpp(223): note: consider using '%Id' in the format string
+  DLLTest.cpp(223): note: consider using '%I64d' in the format string
+DLLTest.cpp(224): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'UINT64'
+  DLLTest.cpp(224): note: consider using '%lld' in the format string
+  DLLTest.cpp(224): note: consider using '%Id' in the format string
+  DLLTest.cpp(224): note: consider using '%I64d' in the format string
   linklist.cpp
   linkqueue.cpp
   pipe.cpp
-pipe.cpp(66): warning C4005: 'BUFSIZE': macro redefinition
+pipe.cpp(67): warning C4005: 'BUFSIZE': macro redefinition
   d:\myprj\dlltest\dlltest\pipe.h(5): note: see previous definition of 'BUFSIZE'
-pipe.cpp(195): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-pipe.cpp(241): warning C4244: 'argument': conversion from 'DWORD' to 'unsigned short', possible loss of data
-pipe.cpp(279): warning C4244: 'argument': conversion from 'DWORD' to 'unsigned short', possible loss of data
-pipe.cpp(232): warning C4474: 'printf' : too many arguments passed for format string
-  pipe.cpp(232): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
-pipe.cpp(350): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'HANDLE'
-pipe.cpp(350): warning C4313: 'printf': '%d' in format string conflicts with argument 1 of type 'HANDLE'
+pipe.cpp(234): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+pipe.cpp(280): warning C4244: 'argument': conversion from 'DWORD' to 'unsigned short', possible loss of data
+pipe.cpp(317): warning C4244: 'argument': conversion from 'DWORD' to 'unsigned short', possible loss of data
+pipe.cpp(271): warning C4474: 'printf' : too many arguments passed for format string
+  pipe.cpp(271): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
+pipe.cpp(388): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'HANDLE'
+pipe.cpp(388): warning C4313: 'printf': '%d' in format string conflicts with argument 1 of type 'HANDLE'
   plugin.cpp
+plugin.cpp(28): warning C4244: 'argument': conversion from 'UINT64' to 'eslapi::CADIBptNumber_t', possible loss of data
+plugin.cpp(393): warning C4018: '<': signed/unsigned mismatch
+plugin.cpp(405): warning C4018: '<': signed/unsigned mismatch
+plugin.cpp(408): warning C4477: 'printf' : format string '%02x' requires an argument of type 'unsigned int', but variadic argument 1 has type 'unsigned char *'
+plugin.cpp(408): warning C4313: 'printf': '%x' in format string conflicts with argument 1 of type 'unsigned char *'
   timeque.cpp
+timeque.cpp(141): warning C4244: 'argument': conversion from 'UINT64' to 'int', possible loss of data
+timeque.cpp(126): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'UINT64'
+  timeque.cpp(126): note: consider using '%lld' in the format string
+  timeque.cpp(126): note: consider using '%Id' in the format string
+  timeque.cpp(126): note: consider using '%I64d' in the format string
+timeque.cpp(127): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'UINT64'
+  timeque.cpp(127): note: consider using '%lld' in the format string
+  timeque.cpp(127): note: consider using '%Id' in the format string
+  timeque.cpp(127): note: consider using '%I64d' in the format string
+timeque.cpp(128): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'UINT64'
+  timeque.cpp(128): note: consider using '%lld' in the format string
+  timeque.cpp(128): note: consider using '%Id' in the format string
+  timeque.cpp(128): note: consider using '%I64d' in the format string
+timeque.cpp(129): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'UINT64'
+  timeque.cpp(129): note: consider using '%lld' in the format string
+  timeque.cpp(129): note: consider using '%Id' in the format string
+  timeque.cpp(129): note: consider using '%I64d' in the format string
 DLLTest.obj : warning LNK4197: export 'test1' specified multiple times; using first specification
 DLLTest.obj : warning LNK4197: export 'SIMC_AddTimeEvent' specified multiple times; using first specification
+DLLTest.obj : warning LNK4197: export 'SIMC_GetExecCycle' specified multiple times; using first specification
 DLLTest.obj : warning LNK4197: export 'SIMC_GetStatus' specified multiple times; using first specification
+DLLTest.obj : warning LNK4197: export 'SIMC_AddBreakPoint' specified multiple times; using first specification
 DLLTest.obj : warning LNK4197: export 'SIMC_ReadReg' specified multiple times; using first specification
+DLLTest.obj : warning LNK4197: export 'SIMC_WriteReg' specified multiple times; using first specification
 DLLTest.obj : warning LNK4197: export 'SIMC_Stop' specified multiple times; using first specification
 DLLTest.obj : warning LNK4197: export 'SIMC_Step' specified multiple times; using first specification
 DLLTest.obj : warning LNK4197: export 'SIMC_Run' specified multiple times; using first specification
 DLLTest.obj : warning LNK4197: export 'SIMC_Init' specified multiple times; using first specification
      Creating library D:\myprj\DLLTest\x64\Release\DLLTest.lib and object D:\myprj\DLLTest\x64\Release\DLLTest.exp
   Generating code
-  All 499 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 533 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   DLLTest.vcxproj -> D:\myprj\DLLTest\x64\Release\DLLTest.dll
   DLLTest.vcxproj -> D:\myprj\DLLTest\x64\Release\DLLTest.pdb (Full PDB)
